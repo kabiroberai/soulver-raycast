@@ -12,8 +12,11 @@ export default function Command() {
   const preferences = getPreferenceValues<Preferences>();
   const soulverPath = preferences.soulverPath || "/Applications/Soulver 3.app";
   const query = [...savedLines, searchText].join("\n");
-  const { data, isLoading } = useExec(`${soulverPath}/Contents/MacOS/CLI/soulver`, [query]);
-  const lines = data?.split("\n") || [];
+  const { data, isLoading } = useExec(`${soulverPath}/Contents/MacOS/CLI/soulver`, [query], {
+    keepPreviousData: true,
+    initialData: "",
+  });
+  const lines = data.split("\n");
   const lastLine = (lines.length === savedLines.length ? undefined : lines.pop()) || "";
   const common = (
     <ActionPanel.Section>
